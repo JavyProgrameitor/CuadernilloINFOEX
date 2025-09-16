@@ -17,7 +17,11 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
           <div className="grid h-9 w-9 place-items-center rounded-xl bg-green-600 text-sm font-bold">
-            FD
+            <img
+          src="/logoINFOEX.webp"
+          alt="Logo Plan INFOEX"
+          className="h-12 w-auto"
+              />
           </div>
           <div>
             <h1 className="text-lg font-semibold tracking-tight">
