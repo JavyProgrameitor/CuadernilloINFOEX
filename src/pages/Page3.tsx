@@ -20,7 +20,7 @@ export default function Page3() {
     const arr = raw ? (JSON.parse(raw) as any[]) : [];
     arr.push(nuevo);
     localStorage.setItem("infoex:componentes", JSON.stringify(arr));
-    nav("/solicitudes");
+    nav("/control-diario");
   }
 
   return (

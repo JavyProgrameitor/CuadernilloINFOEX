@@ -1,0 +1,444 @@
+{
+  "provincias": {
+    "CÁCERES": {
+      "zonas": {
+        "LAS HURDES": {
+          "municipios": [
+            "PINOFRANQUEADO",
+            "CAMINOMORISCO",
+            "NUÑOMORAL",
+            "LADRILLAR",
+            "CASARES DE HURDES"
+          ],
+          "unidades": [
+            "Caminomorisco A",
+            "Caminomorisco B",
+            "Pinofranqueado A",
+            "Pinofranqueado B",
+            "Nuñomoral -Vegas de Coria A",
+            "Nuñomoral -Vegas de Coria B",
+            "Casares A",
+            "Casares B",
+            "Ladrillar A",
+            "Ladrillar B"
+          ],
+          "casetas": {
+            "PINOFRANQUEADO": [
+              "Ahycepo"
+            ],
+            "CAMINOMORISCO": [
+              "Colgadizo"
+            ],
+            "NUÑOMORAL": [
+              "La Jineta"
+            ],
+            "LADRILLAR": [
+              "La Viñuela"
+            ]
+          }
+        },
+        "SIERRA DE GATA": {
+          "municipios": [
+            "HOYOS",
+            "VALVERDE DEL FRESNO",
+            "CILLEROS",
+            "GATA",
+            "ROBLEDILLO DE GATA",
+            "VILLASBUENAS DE GATA",
+            "TORRECILLA DE LOS ANGELES",
+            "DESCARGAMARIA",
+            "VILLANUEVA DE LA SIERRA"
+          ],
+          "unidades": [
+            "Cilleros A",
+            "Cilleros B",
+            "Valverde de Gata A",
+            "Valverde de Gata B",
+            "Villasbuenas A",
+            "Villasbuenas B",
+            "Hoyos tierra A",
+            "Hoyos tierra B",
+            "Hoyos aire A",
+            "Hoyos aire B",
+            "Gata A",
+            "Gata B",
+            "Torrecillas A",
+            "Torrecillas B",
+            "Descargamaria A",
+            "Descargamaria B"
+          ],
+          "casetas": {
+            "VALVERDE DE FRESNO": [
+              "Agachados"
+            ],
+            "CILLEROS": [
+              "Cilleros"
+            ],
+            "GATA": [
+              "Gata"
+            ],
+            "ROBLEDILLO DE GATA": [
+              "Robledillo de Gata"
+            ],
+            "VILLANUEVA DE LA SIERRA": [
+              "Sierra de Dios Padre"
+            ]
+          }
+        },
+        "AMBROZ – JERTE – TIÉTAR": {
+          "alias": [
+            "AMBROZ, JERTE Y TIÉTAR"
+          ],
+          "municipios": [
+            "JARANDILLA DE LA VERA",
+            "TORNAVACAS",
+            "VILLANUEVA DE LA VERA",
+            "HERVÁS",
+            "JARÁIZ DE LA VERA",
+            "NAVACONCEJO",
+            "PLASENCIA",
+            "TALAYUELA"
+          ],
+          "unidades": [
+            "Villanueva de la Vera A",
+            "Villanueva de la Vera B",
+            "Jarandilla de la Vera Tierra A",
+            "Jarandilla de la Vera Tierra B",
+            "Jarandilla de la Vera Aire A",
+            "Jarandilla de la Vera Aire B",
+            "Hervás A",
+            "Hervás B",
+            "Plasencia A",
+            "Plasencia B",
+            "Navaconcejo A",
+            "Navaconcejo B",
+            "Jaraiz Vera A",
+            "Jaraiz Vera B",
+            "Talayuela A",
+            "Talayuela B"
+          ],
+          "casetas": {
+            "JARÁIZ DE LA VERA": [
+              "Cerro de las Cabezas"
+            ],
+            "TORNAVACAS": [
+              "Tornavacas"
+            ],
+            "JARANDILLA DE LA VERA": [
+              "La Nava"
+            ],
+            "VILLANUEVA DE LA VERA": [
+              "Mesallana"
+            ]
+          }
+        },
+        "MONFRAGÜE": {
+          "municipios": [
+            "SERRADILLA",
+            "TORREJÓN EL RUBIO",
+            "CASAS DE MIRAVETE",
+            "MALPARTIDA DE PLASENCIA",
+            "SERREJÓN",
+            "JARAICEJO"
+          ],
+          "unidades": [
+            "Torrejón el Rubio A",
+            "Torrejón el Rubio B",
+            "Malpartida de Plasencia A",
+            "Malpartida de Plasencia B",
+            "Serrejón A",
+            "Serrejón B",
+            "Jaraicejo A",
+            "Jaraicejo B",
+            "Serradilla Aire A",
+            "Serradilla Aire B",
+            "Serradilla Tierra A",
+            "Serradilla Tierra B"
+          ],
+          "casetas": {
+            "SERREJÓN": [
+              "La Serrana"
+            ],
+            "TORREJÓN EL RUBIO": [
+              "Las Corchuelas"
+            ],
+            "CASAS DE MIRAVETE": [
+              "Pico de Miravete"
+            ],
+            "SERRADILLA": [
+              "Santa Catalina"
+            ]
+          }
+        },
+        "VILLUERCAS – IBORES": {
+          "alias": [
+            "IBORES Y VILLUERCAS"
+          ],
+          "municipios": [
+            "GUADALUPE",
+            "CAMPILLO DE DELEITOSA",
+            "ALIA",
+            "NAVATRASIERRA",
+            "CAÑAMERO",
+            "CASTAÑAR DE IBOR",
+            "DELEITOSA"
+          ],
+          "unidades": [
+            "Guadalupe Aire A",
+            "Guadalupe Aire B",
+            "Alia A",
+            "Alia B",
+            "Cañamero A",
+            "Cañamero B",
+            "Castañar de Ibor A",
+            "Castañar de Ibor B",
+            "Deleitosa A",
+            "Deleitosa B"
+          ],
+          "casetas": {
+            "CAMPILLO DE DELEITOSA": [
+              "Campillo de Deleitosa"
+            ],
+            "ALIA": [
+              "La Palomera"
+            ],
+            "NAVATRASIERRA": [
+              "Pico Cervales"
+            ],
+            "CAÑAMERO": [
+              "Sierra de Cañamero"
+            ]
+          }
+        },
+        "CÁCERES CENTRO": {
+          "municipios": [
+            "MALPARTIDA DE CÁCERES",
+            "HERGUIJUELA",
+            "ALISEDA",
+            "CASAS DE MILLÁN",
+            "CÁCERES",
+            "ALCUESCAR",
+            "CAÑAVERAL",
+            "GARCIAZ",
+            "RINCÓN DE BALLESTEROS"
+          ],
+          "unidades": [
+            "Cáceres A",
+            "Cáceres B",
+            "Cañaveral A",
+            "Cañaveral B",
+            "Garciaz A",
+            "Garciaz B",
+            "Alcuescar A",
+            "Alcuescar B",
+            "Rincón de Ballesteros A",
+            "Rincón de Ballesteros B"
+          ],
+          "casetas": {
+            "HERGUIJUELA": [
+              "Cerro Pedro Gómez"
+            ],
+            "ALISEDA": [
+              "El Aljibe"
+            ],
+            "CASAS DE MILLÁN": [
+              "Puertos de los Castaños"
+            ],
+            "CÁCERES": [
+              "Sierra de San Pedro"
+            ]
+          }
+        },
+        "SIERRA DE SAN PEDRO": {
+          "municipios": [
+            "VALENCIA DE ALCÁNTARA",
+            "ALISEDA",
+            "PUEBLA DE OBANDO",
+            "ALBURQUERQUE",
+            "MEMBRIO"
+          ],
+          "unidades": [
+            "Valencia de Alcántara Tierra A",
+            "Valencia de Alcántara Tierra",
+            "Valencia de Alcántara Aire A",
+            "Valencia de Alcántara Aire B",
+            "Puebla de Obando A",
+            "Puebla de Obando B",
+            "Alburquerque A",
+            "Alburquerque B",
+            "Membrio-Santiago A",
+            "Membrio-Santiago B"
+          ],
+          "casetas": {
+            "ALBURQUERQUE": [
+              "El Centinela"
+            ],
+            "SANTIAGO DE ALCÁNTARA": [
+              "La Atalaya"
+            ],
+            "VALENCIA DE ALCÁNTARA": [
+              "Sierra Fría"
+            ]
+          }
+        }
+      }
+    },
+    "BADAJOZ": {
+      "zonas": {
+        "LA SIBERIA": {
+          "alias": [
+            "SIBERIA"
+          ],
+          "municipios": [
+            "HERRERA DEL DUQUE",
+            "HELECHOSA DE LOS MONTES",
+            "TALARRUBIAS",
+            "VILLARTA DE LOS MONTES",
+            "FUENLABRADA DE LOS MONTES",
+            "GARBAYUELA",
+            "SIRUELA",
+            "PEÑALSORDO",
+            "VALDECABALLERO",
+            "BOHONAL DE LOS MONTES"
+          ],
+          "unidades": [
+            "Talarrubias A",
+            "Talarrubias B",
+            "Garbayuela A",
+            "Garbayuela B",
+            "Valdecaballeros A",
+            "Valdecaballeros B",
+            "Herrera Duque Tierra A",
+            "Herrera Duque Tierra B",
+            "Herrera Duque Aire A",
+            "Herrera Duque Aire B",
+            "Helechosa de los Montes 27 A",
+            "Helechosa de los Montes 27 B",
+            "Helechosa de los Montes 33 A",
+            "Helechosa de los Montes 33 B",
+            "Villarta de los Montes A",
+            "Villarta de los Montes B",
+            "Bohonal de los Montes A",
+            "Bohonal de los Montes B",
+            "Siruela A",
+            "Siruela B",
+            "Peñalsordo A",
+            "Peñalsordo B",
+            "Fuenlabrada de los Montes A",
+            "Fuenlabrada de los Montes B"
+          ],
+          "casetas": {
+            "HELECHOSA DE LOS MONTES": [
+              "La Aljibe",
+              "El Azorejo",
+              "El Portillo"
+            ],
+            "TALARRUBIAS": [
+              "El Manzano",
+              "Las Víboras"
+            ],
+            "VILLARTA DE LOS MONTES": [
+              "El Manzano Villarte",
+              "La Rayuela"
+            ],
+            "FUENLABRADA DE LOS MONTES": [
+              "Las Moralejas"
+            ],
+            "GARBAYUELA": [
+              "Los Villares"
+            ],
+            "SIRUELA": [
+              "Sierra del Palo"
+            ],
+            "HERRERA DEL DUQUE": [
+              "El Mirador"
+            ]
+          }
+        },
+        "LA SERENA": {
+          "alias": [
+            "SERENA"
+          ],
+          "municipios": [
+            "MANCHITA",
+            "LA HABA",
+            "DON BENITO",
+            "PUEBLA DE LA REINA",
+            "ZALAMEA DE LA SERENA",
+            "VALLE DE LA SERENA"
+          ],
+          "unidades": [
+            "Don Benito A",
+            "Don Benito B",
+            "Manchita Tierra A",
+            "Manchita Tierra B",
+            "Manchita Aire A",
+            "Manchita Aire B",
+            "Zalamea de la Serena A",
+            "Zalamea de la Serena B",
+            "Puebla de la Reina A",
+            "Puebla de la Reina B",
+            "Valle de la Serena A",
+            "Valle de la Serena B"
+          ],
+          "casetas": {
+            "LA HABA": [
+              "Arrauces"
+            ]
+          }
+        },
+        "TENTUDÍA": {
+          "alias": [
+            "TENTUDIA"
+          ],
+          "municipios": [
+            "CALERA DE LEÓN",
+            "MONESTERIO",
+            "TRASIERRA",
+            "OLIVA DE LA FRONTERA"
+          ],
+          "unidades": [
+            "Calera de León Tierra A",
+            "Calera de León Tierra B",
+            "Calera de León Aire A",
+            "Calera de León Aire B",
+            "Monesterio A",
+            "Monesterio B",
+            "Trasierra A",
+            "Trasierra B",
+            "Oliva de la Frontera A",
+            "Oliva de la Frontera B"
+          ],
+          "casetas": {
+            "BIENVENIDA": [
+              "Bienvenida"
+            ],
+            "MONESTERIO": [
+              "Castillo o Agua Fría"
+            ],
+            "OLIVA DE LA FRONTERA": [
+              "El Perdigón"
+            ],
+            "TRASIERRA": [
+              "Puerto Blanco"
+            ]
+          }
+        },
+        "BADAJOZ CENTRO": {
+          "municipios": [
+            "BADAJOZ",
+            "ALMENDRAL",
+            "MIRANDILLA"
+          ],
+          "unidades": [
+            "Almendral A",
+            "Almendral B",
+            "Mirandilla A",
+            "Mirandilla B"
+          ],
+          "casetas": {}
+        }
+      }
+    }
+  }
+}
