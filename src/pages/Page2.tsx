@@ -163,7 +163,6 @@ export default function Page2() {
 
     const t = setTimeout(async () => {
       const fechaISO = new Date(anio, mes - 1, dia).toISOString().slice(0, 10);
-      const unidadOCaseta = header.tipo === "caseta" ? header.caseta : header.unidad;
 
       // Upsert en "partes"
       await supabase.from("partes").upsert(
