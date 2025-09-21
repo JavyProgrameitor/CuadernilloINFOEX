@@ -67,9 +67,8 @@ export default function Page2() {
       header?.tipo === "caseta" ? header?.caseta : header?.unidad;
     const mm = String(mes).padStart(2, "0");
     const dd = String(dia).padStart(2, "0");
-    return `infoex:parte:${anio}-${mm}-${dd}:${header?.tipo ?? "NA"}:${
-      unidadOCaseta ?? "SIN"
-    }`;
+    return `infoex:parte:${anio}-${mm}-${dd}:${header?.tipo ?? "NA"}:${unidadOCaseta ?? "SIN"
+      }`;
   }, [anio, mes, dia, header?.tipo, header?.unidad, header?.caseta]);
 
   const partePk = storageKey.replace("infoex:parte:", ""); // usamos esta pk para Supabase
@@ -450,17 +449,16 @@ export default function Page2() {
                         />
                       </label>
                     </td>
-
-                    {/* Jornada laboral */}
                     <td className="border-t border-white-10 px-2 py-2">
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-1 sm:gap-2">
                         <input
                           type="time"
                           value={fila?.jornada.ini ?? ""}
                           onChange={(e) =>
                             updateRango(c.id, "jornada", "ini", e.target.value)
                           }
-                          className="rounded-md border border-white-10 bg-black-30 p-1 outline-none"
+                          className="h-9 w-full min-w-[5.75rem] rounded-md border border-white/20 bg-zinc-800/80 px-2 text-sm text-white outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 font-mono"
+                          style={{ colorScheme: "dark" }}
                         />
                         <input
                           type="time"
@@ -468,7 +466,8 @@ export default function Page2() {
                           onChange={(e) =>
                             updateRango(c.id, "jornada", "fin", e.target.value)
                           }
-                          className="rounded-md border border-white-10 bg-black-30 p-1 outline-none"
+                          className="h-9 w-full min-w-[5.75rem] rounded-md border border-white/20 bg-zinc-800/80 px-2 text-sm text-white outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 font-mono"
+                          style={{ colorScheme: "dark" }}
                         />
                       </div>
                     </td>
