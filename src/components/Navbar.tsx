@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { CalendarDays, ClipboardList, BarChart3, Home } from "lucide-react";
+import {ClipboardList, BarChart3, Home } from "lucide-react";
 
 const base =
   "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition";
