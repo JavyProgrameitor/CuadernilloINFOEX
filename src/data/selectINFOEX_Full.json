@@ -156,9 +156,6 @@
             "Serradilla Tierra B"
           ],
           "casetas": {
-            "SERREJÓN": [
-              "La Serrana"
-            ],
             "TORREJÓN EL RUBIO": [
               "Las Corchuelas"
             ],
@@ -166,7 +163,8 @@
               "Pico de Miravete"
             ],
             "SERRADILLA": [
-              "Santa Catalina"
+              "Santa Catalina",
+              "La Serrana"
             ]
           }
         },
@@ -245,7 +243,8 @@
               "Puertos de los Castaños"
             ],
             "CÁCERES": [
-              "Sierra de San Pedro"
+              "Sierra de San Pedro",
+              "Emisora Central del COR"
             ]
           }
         },
@@ -436,7 +435,11 @@
             "Mirandilla A",
             "Mirandilla B"
           ],
-          "casetas": {}
+          "casetas": {
+               "BADAJOZ": [
+              "Emisora Central de Badajoz"
+            ]
+          }
         }
       }
     }

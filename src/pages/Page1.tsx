@@ -7,7 +7,7 @@ type ZonaData = {
   municipios: string[];
   unidades: string[];
   alias?: string[];
-  // Mapa: nombreMunicipio -> lista de casetas (sin "_zona")
+  // Mapa: nombreMunicipio -> lista de casetas 
   casetas?: Record<string, string[]>;
 };
 
@@ -62,7 +62,7 @@ export default function Page1() {
       ? unidadesZona.filter((u) => norm(u).includes(norm(municipio)))
       : [];
 
-  // CASETAS: directamente por municipio (tal cual en tu JSON, sin "_zona")
+  // CASETAS: directamente por municipio
   const casetasFiltradas =
     municipio && zonaData?.casetas
       ? zonaData.casetas[municipio] ?? []
@@ -122,7 +122,11 @@ export default function Page1() {
 
   return (
     <section className="space-y-6">
-      <h1 className="text-2xl font-semibold">Cuadernillo INFOEX</h1>
+  <h1 className="flex flex-wrap justify-center text-3xl sm:text-4xl font-black tracking-tight 
+               bg-gradient-to-r from-white to-green-600 bg-clip-text text-transparent">
+              PLAN INFOEX
+              </h1>
+       <h2 className="flex flex-wrap justify-center text-xl font-semibold">APP DE INCIDENCIAS</h2>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {/* Provincia */}
@@ -135,7 +139,7 @@ export default function Page1() {
           >
             <option value="">Selecciona provincia…</option>
             {provincias.map((p) => (
-              <option key={p} value={p} className="bg-zinc-900">
+              <option key={p} value={p} className="bg-zinc-600">
                 {p}
               </option>
             ))}
@@ -155,7 +159,7 @@ export default function Page1() {
               {provincia ? "Selecciona zona…" : "Selecciona provincia primero"}
             </option>
             {zonas.map((z) => (
-              <option key={z} value={z} className="bg-zinc-900">
+              <option key={z} value={z} className="bg-zinc-600">
                 {z}
               </option>
             ))}
@@ -175,7 +179,7 @@ export default function Page1() {
               {zona ? "Selecciona municipio…" : "Selecciona zona primero"}
             </option>
             {municipios.map((m) => (
-              <option key={m} value={m} className="bg-zinc-900">
+              <option key={m} value={m} className="bg-zinc-600">
                 {m}
               </option>
             ))}
@@ -194,8 +198,8 @@ export default function Page1() {
             <option value="">
               {municipio ? "Selecciona tipo…" : "Selecciona municipio primero"}
             </option>
-            <option value="unidad" className="bg-zinc-900">Unidad</option>
-            <option value="caseta" className="bg-zinc-900">Caseta</option>
+            <option value="unidad" className="bg-zinc-600">Unidad</option>
+            <option value="caseta" className="bg-zinc-600">Caseta</option>
           </select>
         </div>
 
@@ -219,7 +223,7 @@ export default function Page1() {
             </option>
 
             {opcionesFinales.map((opt) => (
-              <option key={opt} value={opt} className="bg-zinc-900">
+              <option key={opt} value={opt} className="bg-zinc-600">
                 {opt}
               </option>
             ))}
@@ -237,7 +241,7 @@ export default function Page1() {
         <button
           disabled={!puedeContinuar}
           onClick={handleContinuar}
-          className="rounded-xl bg-emerald-600 px-4 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-xl bg-lime-600 px-4 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
           CONTINUAR
         </button>
