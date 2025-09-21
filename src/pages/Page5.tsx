@@ -5,11 +5,10 @@ import supabase, { hasSupabase } from "../lib/supabaseClient";
 type Salida = {
   id?: string; // local key
   terminoMunicipal: string;
-  hMovilizacion: string;   // HH:MM
-  hSalida: string;
-  hLlegadaInc: string;
-  hRegreso: string;
-  hLlegadaBase: string;
+  parajeTajo: string;
+  trabajadorMotosierra: number | "";
+  trabajadorDesbrozadora: number | "";
+  trabajadorRestos: number | "";
   numComponentes: number | "";
 };
 
@@ -46,11 +45,7 @@ export default function Page4() {
           data.map((r: any) => ({
             id: r.id,
             terminoMunicipal: r.termino_municipal ?? "",
-            hMovilizacion: r.h_movilizacion ?? "",
-            hSalida: r.h_salida ?? "",
-            hLlegadaInc: r.h_llegada_inc ?? "",
-            hRegreso: r.h_regreso ?? "",
-            hLlegadaBase: r.h_llegada_base ?? "",
+      
             numComponentes: r.num_componentes ?? "",
           }))
         );
@@ -69,11 +64,10 @@ export default function Page4() {
       {
         id: crypto.randomUUID(),
         terminoMunicipal: "",
-        hMovilizacion: "",
-        hSalida: "",
-        hLlegadaInc: "",
-        hRegreso: "",
-        hLlegadaBase: "",
+        parajeTajo: "",
+        trabajadorMotosierra: "",
+        trabajadorDesbrozadora: "",
+        trabajadorRestos: "",
         numComponentes: "",
       },
     ]);
@@ -103,11 +97,7 @@ export default function Page4() {
       const payload = salidas.map((s) => ({
         parte_pk: partePk,
         termino_municipal: s.terminoMunicipal || null,
-        h_movilizacion: s.hMovilizacion || null,
-        h_salida: s.hSalida || null,
-        h_llegada_inc: s.hLlegadaInc || null,
-        h_regreso: s.hRegreso || null,
-        h_llegada_base: s.hLlegadaBase || null,
+
         num_componentes: s.numComponentes === "" ? null : Number(s.numComponentes),
       }));
       const { error } = await supabase.from("incendios").insert(payload);
@@ -123,13 +113,13 @@ export default function Page4() {
   return (
     <section className="space-y-4 text-white">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Salidas a incendios</h1>
+        <h1 className="text-2xl font-semibold">Salidas a trabajos</h1>
         <div className="flex gap-2">
           <button
             onClick={addSalida}
             className="rounded-xl bg-blue-800 px-3 py-2 text-sm font-semibold"
           >
-            Añadir salida
+            Añadir trabajos
           </button>
           <button
             onClick={saveSupabase}
@@ -172,59 +162,45 @@ export default function Page4() {
                     className="w-full rounded-md border border-white-10 bg-black-30 p-2 outline-none"
                   />
                 </div>
-
-                <div>
-                  <label className="mb-1 block text-xs text-white-70">Hora movilización</label>
+                  <div>
+                  <label className="mb-1 block text-xs text-white-70">Paraje del Tajo</label>
                   <input
-                    type="time"
-                    value={s.hMovilizacion}
-                    onChange={(e) => updateSalida(s.id, "hMovilizacion", e.target.value)}
+                    type="text"
+                    value={s.parajeTajo}
+                    onChange={(e) => updateSalida(s.id, "parajeTajo", e.target.value)}
+                    className="w-full rounded-md border border-white-10 bg-black-30 p-2 outline-none"
+                  />
+                </div>
+                  <div>
+                  <label className="mb-1 block text-xs text-white-70">Num.Trabajadores Motosierra</label>
+                  <input
+                    type="text"
+                    value={s.trabajadorMotosierra}
+                    onChange={(e) => updateSalida(s.id, "trabajadorMotosierra", e.target.value === "" ? "" : parseInt(e.target.value, 10))}
+                    className="w-full rounded-md border border-white-10 bg-black-30 p-2 outline-none"
+                  />
+                </div>
+                  <div>
+                  <label className="mb-1 block text-xs text-white-70">Num.Trabajadores Desbrozadora</label>          
+                     <input
+                    type="text"
+                    value={s.trabajadorDesbrozadora}
+                    onChange={(e) => updateSalida(s.id, "trabajadorDesbrozadora", e.target.value === "" ? "" : parseInt(e.target.value, 10))}
+                    className="w-full rounded-md border border-white-10 bg-black-30 p-2 outline-none"
+                  />
+                </div>
+                  <div>
+                  <label className="mb-1 block text-xs text-white-70">Num.Trabajadores Restos</label>
+                   <input
+                    type="text"
+                    value={s.trabajadorRestos}
+                    onChange={(e) => updateSalida(s.id, "trabajadorRestos", e.target.value === "" ? "" : parseInt(e.target.value, 10))}
                     className="w-full rounded-md border border-white-10 bg-black-30 p-2 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-xs text-white-70">Hora salida al incendio</label>
-                  <input
-                    type="time"
-                    value={s.hSalida}
-                    onChange={(e) => updateSalida(s.id, "hSalida", e.target.value)}
-                    className="w-full rounded-md border border-white-10 bg-black-30 p-2 outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-xs text-white-70">Hora llegada al incendio</label>
-                  <input
-                    type="time"
-                    value={s.hLlegadaInc}
-                    onChange={(e) => updateSalida(s.id, "hLlegadaInc", e.target.value)}
-                    className="w-full rounded-md border border-white-10 bg-black-30 p-2 outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-xs text-white-70">Hora regreso del incendio</label>
-                  <input
-                    type="time"
-                    value={s.hRegreso}
-                    onChange={(e) => updateSalida(s.id, "hRegreso", e.target.value)}
-                    className="w-full rounded-md border border-white-10 bg-black-30 p-2 outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-xs text-white-70">Hora llegada a base</label>
-                  <input
-                    type="time"
-                    value={s.hLlegadaBase}
-                    onChange={(e) => updateSalida(s.id, "hLlegadaBase", e.target.value)}
-                    className="w-full rounded-md border border-white-10 bg-black-30 p-2 outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-xs text-white-70">Nº componentes</label>
+                  <label className="mb-1 block text-xs text-white-70">Num.Componentes</label>
                   <input
                     type="number"
                     min={0}

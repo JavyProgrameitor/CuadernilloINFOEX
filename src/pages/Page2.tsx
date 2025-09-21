@@ -63,10 +63,13 @@ export default function Page2() {
 
   // --------- Estado del parte ----------
   const storageKey = useMemo(() => {
-    const unidadOCaseta = header?.tipo === "caseta" ? header?.caseta : header?.unidad;
+    const unidadOCaseta =
+      header?.tipo === "caseta" ? header?.caseta : header?.unidad;
     const mm = String(mes).padStart(2, "0");
     const dd = String(dia).padStart(2, "0");
-    return `infoex:parte:${anio}-${mm}-${dd}:${header?.tipo ?? "NA"}:${unidadOCaseta ?? "SIN"}`;
+    return `infoex:parte:${anio}-${mm}-${dd}:${header?.tipo ?? "NA"}:${
+      unidadOCaseta ?? "SIN"
+    }`;
   }, [anio, mes, dia, header?.tipo, header?.unidad, header?.caseta]);
 
   const partePk = storageKey.replace("infoex:parte:", ""); // usamos esta pk para Supabase
@@ -84,7 +87,8 @@ export default function Page2() {
         try {
           const saved = JSON.parse(raw);
           if (saved?.filas) setFilas(saved.filas);
-          if (saved?.horasExtrasTotal) setHorasExtrasTotal(saved.horasExtrasTotal);
+          if (saved?.horasExtrasTotal)
+            setHorasExtrasTotal(saved.horasExtrasTotal);
         } catch {
           // ignore
         }
@@ -175,7 +179,10 @@ export default function Page2() {
           unidad: header.unidad ?? null,
           caseta: header.caseta ?? null,
           nombre_centro: header.nombreCentro,
-          horas_extras_total: horasExtrasTotal === "" ? null : parseFloat(horasExtrasTotal.replace(",", ".")) || null,
+          horas_extras_total:
+            horasExtrasTotal === ""
+              ? null
+              : parseFloat(horasExtrasTotal.replace(",", ".")) || null,
         },
         { onConflict: "pk" }
       );
@@ -204,8 +211,18 @@ export default function Page2() {
 
   const meses = useMemo(
     () => [
-      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre",
     ],
     []
   );
@@ -217,7 +234,9 @@ export default function Page2() {
     value: ParteFila[K]
   ) => {
     setFilas((prev) =>
-      prev.map((f) => (f.componenteId === componenteId ? { ...f, [key]: value } : f))
+      prev.map((f) =>
+        f.componenteId === componenteId ? { ...f, [key]: value } : f
+      )
     );
   };
 
@@ -239,7 +258,7 @@ export default function Page2() {
   return (
     <section className="space-y-4 text-white">
       {/* Barra superior con fecha */}
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         <div className="flex items-center gap-2">
           <div className="rounded-xl border border-white-10 bg-zinc-900 px-3 py-2 text-sm">
             <span className="mr-2 text-white/60">DÍA</span>
@@ -280,31 +299,6 @@ export default function Page2() {
             />
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => nav("/componentes", { state: { partePk } })}
-            className="rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold"
-          >
-            AGREGAR COMPONETE
-          </button>
-          <button
-            onClick={() => nav("/incendios", { state: { partePk } })}
-            className="rounded-xl bg-amber-600 px-3 py-2 text-sm font-semibold"
-          >
-            SALIDAS A INCENDIOS
-          </button>
-        </div>
-                  {/* Campo horas extras totales del día */}
-        <div className="rounded-xl border border-white-10 bg-zinc-900 px-3 py-2 text-sm">
-          <span className="mr-2 text-white/80">Nº.Horas Extras</span>
-          <input
-            type="text"
-            placeholder="hh.mm"
-            value={horasExtrasTotal}
-            onChange={(e) => setHorasExtrasTotal(e.target.value)}
-            className="w-28 bg-transparent text-center outline-none"
-          />
-        </div>
       </div>
       {/* Metadatos del encabezado */}
       {header && (
@@ -330,30 +324,54 @@ export default function Page2() {
         </div>
       )}
 
+      <div className="flex flex-wrap justify-center gap-2">
+        <button
+          onClick={() => nav("/componentes", { state: { partePk } })}
+          className="rounded-xl bg-amber-900 px-3 py-2 text-sm font-semibold"
+        >
+          AGREGAR COMPONETE
+        </button>
+        <button
+          onClick={() => nav("/incendios", { state: { partePk } })}
+          className="rounded-xl bg-amber-300 px-3 py-2 text-sm font-semibold"
+        >
+          SALIDAS A INCENDIOS
+        </button>
+        <button
+          onClick={() => nav("/trabajos", { state: { partePk } })}
+          className="rounded-xl bg-amber-400 px-3 py-2 text-sm font-semibold"
+        >
+          SALIDAS A TRABAJOS
+        </button>
+      </div>
+
       {/* Tabla */}
       <div className="overflow-x-auto rounded-2xl border border-white-10 bg-zinc-500">
-        <table className="min-w-[1100px] w-full border-separate border-spacing-0 text-sm">
+        <table className="w-full border-separate border-spacing-0 text-sm">
           <thead className="sticky top-0 bg-zinc-700 backdrop-blur">
             <tr>
               <th className="border-b border-white-10 px-5 py-5 text-left">
                 COMPONENTES
-                <span className="block text-xs text-white/60">Nombres y apellidos</span>
+                <span className="block text-xs text-white/60">
+                  Nombres y apellidos
+                </span>
               </th>
-              <th className="w-24 border-b border-white-10 px-2 py-2">CÓDIGO</th>
-              <th className="w-28 border-b border-white-10 px-2 py-2">Abono Domingo o Festivo</th>
-              <th className="w-28 border-b border-white-10 px-2 py-2">Superior Categoría</th>
-
+              <th className="border-b border-white-10 px-2 py-2">CÓDIGO</th>
               <th className="border-b border-white-10 px-2 py-2">
-                Horario de la jornada Laboral
-                <div className="mt-1 grid grid-cols-2 text-xs text-white-60">
-                  <span>Inicio</span><span>Fin</span>
-                </div>
+                Domingo o Festivo
               </th>
               <th className="border-b border-white-10 px-2 py-2">
-                Salida desde el Centro de Trabajo (h)
+                Superior Categoría
+              </th>
+              <th className="min-w-[220px] border-b border-white-10 px-2 py-2">
+                Horario Jornada Laboral
                 <div className="mt-1 grid grid-cols-2 text-xs text-white-60">
-                  <span>Inicio</span><span>Fin</span>
+                  <span>Inicio</span>
+                  <span>Fin</span>
                 </div>
+              </th>
+              <th className="w-20 sm:w-24 border-b border-white-10 px-2 py-2 text-center">
+                Nº.Horas Extras
               </th>
             </tr>
           </thead>
@@ -362,7 +380,8 @@ export default function Page2() {
             {componentes.length === 0 ? (
               <tr>
                 <td className="px-3 py-6 text-center text-white/60" colSpan={9}>
-                  No hay componentes añadidos todavía. Pulsa <b>AÑADIR COMPONENTES</b> para crear.
+                  No hay componentes añadidos todavía. Pulsa{" "}
+                  <b>AÑADIR COMPONENTES</b> para crear.
                 </td>
               </tr>
             ) : (
@@ -373,7 +392,9 @@ export default function Page2() {
                     <td className="border-t border-white-10 px-3 py-2">
                       {c.apellidos}, {c.nombre}
                       {c.numero ? (
-                        <span className="ml-2 text-xs text-white/50">({c.numero})</span>
+                        <span className="ml-2 text-xs text-white/50">
+                          ({c.numero})
+                        </span>
                       ) : null}
                     </td>
 
@@ -384,10 +405,14 @@ export default function Page2() {
                         onChange={(e) =>
                           updateFila(c.id, "codigo", e.target.value as Codigo)
                         }
-                        className="w-20 rounded-md border border-white-10 bg-black-30 p-1 outline-none"
+                        className="h-9 w-16 sm:w-20 rounded-md border border-white-10 bg-black-30 px-2 text-center font-mono outline-none"
                       >
                         {["", "JR", "TH", "TC", "V", "B"].map((code) => (
-                          <option key={code} value={code} className="bg-zinc-900">
+                          <option
+                            key={code}
+                            value={code}
+                            className="bg-zinc-900"
+                          >
                             {code || "—"}
                           </option>
                         ))}
@@ -403,7 +428,7 @@ export default function Page2() {
                           onChange={(e) =>
                             updateFila(c.id, "abonoDF", e.target.checked)
                           }
-                          className="h-4 w-4 accent-emerald-500"
+                          className="h-4 w-4 accent-emerald-500 "
                         />
                       </label>
                     </td>
@@ -415,7 +440,11 @@ export default function Page2() {
                           type="checkbox"
                           checked={!!fila?.superiorCategoria}
                           onChange={(e) =>
-                            updateFila(c.id, "superiorCategoria", e.target.checked)
+                            updateFila(
+                              c.id,
+                              "superiorCategoria",
+                              e.target.checked
+                            )
                           }
                           className="h-4 w-4 accent-emerald-500"
                         />
@@ -428,34 +457,32 @@ export default function Page2() {
                         <input
                           type="time"
                           value={fila?.jornada.ini ?? ""}
-                          onChange={(e) => updateRango(c.id, "jornada", "ini", e.target.value)}
+                          onChange={(e) =>
+                            updateRango(c.id, "jornada", "ini", e.target.value)
+                          }
                           className="rounded-md border border-white-10 bg-black-30 p-1 outline-none"
                         />
                         <input
                           type="time"
                           value={fila?.jornada.fin ?? ""}
-                          onChange={(e) => updateRango(c.id, "jornada", "fin", e.target.value)}
+                          onChange={(e) =>
+                            updateRango(c.id, "jornada", "fin", e.target.value)
+                          }
                           className="rounded-md border border-white-10 bg-black-30 p-1 outline-none"
                         />
                       </div>
                     </td>
-
-                    {/* Salida desde el Centro */}
-                    <td className="border-t border-white-10 px-2 py-2">
-                      <div className="grid grid-cols-2 gap-2">
-                        <input
-                          type="time"
-                          value={fila?.salida.ini ?? ""}
-                          onChange={(e) => updateRango(c.id, "salida", "ini", e.target.value)}
-                          className="rounded-md border border-white-10 bg-black-30 p-1 outline-none"
-                        />
-                        <input
-                          type="time"
-                          value={fila?.salida.fin ?? ""}
-                          onChange={(e) => updateRango(c.id, "salida", "fin", e.target.value)}
-                          className="rounded-md border border-white-10 bg-black-30 p-1 outline-none"
-                        />
-                      </div>
+                    {/* Campo horas extras totales del día */}
+                    <td className="border-t border-white-10 px-2 py-2 text-center">
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        pattern="[0-9]*[.,]?[0-9]*"
+                        placeholder="h.mm"
+                        value={horasExtrasTotal}
+                        onChange={(e) => setHorasExtrasTotal(e.target.value)}
+                        className="h-9 w-16 sm:w-20 rounded-md border border-white-10 bg-black-30 px-2 text-center font-mono outline-none"
+                      />
                     </td>
                   </tr>
                 );

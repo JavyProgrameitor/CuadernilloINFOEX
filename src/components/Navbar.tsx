@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { CalendarDays, ClipboardList, BarChart3 } from "lucide-react";
+import { CalendarDays, ClipboardList, BarChart3, Home } from "lucide-react";
 
 const base =
   "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition";
 const inactive =
-  "text-white/70 hover:text-white hover:bg-white/5";
+  "text-white-70 hover:text-white hover:bg-white-5";
 const active =
-  "text-white bg-white/10 ring-1 ring-white/15";
+  "text-white bg-white/10 ring-1 ring-white-15";
 
 export default function Navbar() {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
@@ -32,21 +32,20 @@ export default function Navbar() {
             </p>
           </div>
         </div>
-
         <div className="flex items-center gap-2">
           <NavLink to="/" className={linkClass} end>
-            <CalendarDays className="h-4 w-4" />
-            Control diario
+            <Home className="h-4 w-4" />
+           Inicio
           </NavLink>
-          <NavLink to="/solicitudes" className={linkClass}>
+          <NavLink to="/control-diario" className={linkClass}>
             <ClipboardList className="h-4 w-4" />
-            Solicitudes
+             Control diario
           </NavLink>
-          <NavLink to="/resumen-anual" className={linkClass}>
+          <NavLink to="/resumen-mensual" className={linkClass}>
             <BarChart3 className="h-4 w-4" />
-            Resumen anual
+            Resumen mensual
           </NavLink>
-        </div>
+          </div>
       </div>
     </nav>
   );
