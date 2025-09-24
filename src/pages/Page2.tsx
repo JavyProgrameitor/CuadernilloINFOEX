@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import supabase, { hasSupabase } from "../lib/supabaseClient";
+import { useNavigate, useLocation } from "react-router-dom";
+import { insertCuadernilloRows, selectionToContext } from "../lib/db";
+import { getCurrentSelection } from "../lib/selection";
 
 type Header = {
   zona: string;
@@ -30,13 +31,13 @@ type ParteFila = {
   abonoDF: boolean;
   superiorCategoria: boolean;
   jornada: { ini: HHMM; fin: HHMM };
-  salida: { ini: HHMM; fin: HHMM };
 };
 
 export default function Page2() {
   const nav = useNavigate();
+  const location = useLocation() as { state?: any };
 
-  // --------- Cabecera (cargada desde Page1) ----------
+  // --------- Cabecera ----------
   const [header, setHeader] = useState<Header | null>(null);
   const now = new Date();
   const [dia, setDia] = useState<number>(now.getDate());
@@ -44,93 +45,85 @@ export default function Page2() {
   const [anio, setAnio] = useState<number>(now.getFullYear());
 
   useEffect(() => {
-    const raw = localStorage.getItem("infoex:header");
-    if (raw) {
-      const h = JSON.parse(raw) as Header;
+    // Si Page1 te envía algo por state, lo recogemos aquí
+    const h = location.state?.header as Header | undefined;
+    if (h) {
       setHeader(h);
       if (h.dia) setDia(h.dia);
       if (h.mes) setMes(h.mes);
       if (h.anio) setAnio(h.anio);
+    } else {
+      // Si no llega nada, dejamos header en null; la UI ya lo contempla.
+      setHeader(null);
     }
-  }, []);
+  }, [location.state]);
 
-  // --------- Componentes (desde Page3) ----------
-  const [componentes, setComponentes] = useState<Componente[]>([]);
-  useEffect(() => {
-    const raw = localStorage.getItem("infoex:componentes");
-    if (raw) setComponentes(JSON.parse(raw));
-  }, []);
-
-  // --------- Estado del parte ----------
-  const storageKey = useMemo(() => {
-    const unidadOCaseta =
-      header?.tipo === "caseta" ? header?.caseta : header?.unidad;
+  const fechaStr = useMemo(() => {
     const mm = String(mes).padStart(2, "0");
     const dd = String(dia).padStart(2, "0");
-    return `infoex:parte:${anio}-${mm}-${dd}:${header?.tipo ?? "NA"}:${unidadOCaseta ?? "SIN"
-      }`;
-  }, [anio, mes, dia, header?.tipo, header?.unidad, header?.caseta]);
+    return `${anio}-${mm}-${dd}`;
+  }, [anio, mes, dia]);
 
-  const partePk = storageKey.replace("infoex:parte:", ""); // usamos esta pk para Supabase
 
-  const [filas, setFilas] = useState<ParteFila[]>([]);
-  const [horasExtrasTotal, setHorasExtrasTotal] = useState<string>(""); // puede ser "2" o "2.5" o "02:30"
+  // --------- Componentes ----------
+  const [componentes, setComponentes] = useState<Componente[]>([]);
 
-  // Cargar parte guardado (localStorage o Supabase)
+  function loadComponentesFromStorage() {
+    try {
+      const keys = [
+        "cuadernillo.componentes",
+        "cuadernilo:componentes", // legacy typo
+        "infoex:componentes", // legacy
+      ];
+      for (const k of keys) {
+        const raw = localStorage.getItem(k);
+        if (raw) {
+          const arr = JSON.parse(raw);
+          if (Array.isArray(arr)) {
+            setComponentes(arr);
+            return;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("No se pudieron leer componentes de localStorage:", e);
+    }
+    setComponentes([]); // si nada
+  }
+
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      // Primero localStorage (fallback inmediato)
-      const raw = localStorage.getItem(storageKey);
-      if (raw && !cancelled) {
-        try {
-          const saved = JSON.parse(raw);
-          if (saved?.filas) setFilas(saved.filas);
-          if (saved?.horasExtrasTotal)
-            setHorasExtrasTotal(saved.horasExtrasTotal);
-        } catch {
-          // ignore
-        }
-      }
-      // Si hay supabase, intentamos cargar último estado
-      if (hasSupabase && header) {
-        const { data: parte, error } = await supabase
-          .from("partes")
-          .select("*")
-          .eq("pk", partePk)
-          .maybeSingle();
+    // 1) Si vienen por navegación, úsalos
+    const comps = location.state?.componentes as Componente[] | undefined;
+    if (Array.isArray(comps)) {
+      setComponentes(comps);
+      return;
+    }
+    // 2) Si no, lee del localStorage
+    loadComponentesFromStorage();
+  }, [location.state]);
 
-        if (!cancelled && !error && parte) {
-          if (parte.horas_extras_total != null) {
-            setHorasExtrasTotal(String(parte.horas_extras_total));
-          }
-          const { data: lineas } = await supabase
-            .from("parte_filas")
-            .select("*")
-            .eq("parte_pk", partePk)
-            .order("id", { ascending: true });
+  // (Opcional) si navegas hacia/desde otras páginas dentro de la SPA y quieres refrescar por si acaso:
+  useEffect(() => {
+    const onFocus = () => loadComponentesFromStorage();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, []);
 
-          if (lineas) {
-            const mapped: ParteFila[] = lineas.map((r: any) => ({
-              componenteId: r.componente_id,
-              codigo: (r.codigo ?? "") as Codigo,
-              abonoDF: !!r.abono_df,
-              superiorCategoria: !!r.superior_categoria,
-              jornada: { ini: r.jornada_ini ?? "", fin: r.jornada_fin ?? "" },
-              salida: { ini: r.salida_ini ?? "", fin: r.salida_fin ?? "" },
-            }));
-            setFilas(mapped);
-          }
-        }
-      }
-    })();
+  // --------- PK derivada SOLO para navegación (no guarda nada) ----------
+  const partePk = useMemo(() => {
+    if (!header) return "";
+    const unidadOCaseta =
+      header.tipo === "caseta"
+        ? header.caseta ?? "SIN"
+        : header.unidad ?? "SIN";
+    return [fechaStr, header.tipo ?? "NA", unidadOCaseta].join("|");
+  }, [header, fechaStr]);
 
-    return () => {
-      cancelled = true;
-    };
-  }, [storageKey, partePk, header, hasSupabase]);
+  // --------- Estado del parte (solo local) ----------
+  const [filas, setFilas] = useState<ParteFila[]>([]);
+  const [horasExtrasTotal, setHorasExtrasTotal] = useState<string>("");
 
-  // Sincronizar filas con componentes (crea filas nuevas si hace falta y conserva las existentes)
+
   useEffect(() => {
     if (componentes.length === 0) {
       setFilas([]);
@@ -146,67 +139,83 @@ export default function Page2() {
           abonoDF: false,
           superiorCategoria: false,
           jornada: { ini: "", fin: "" },
-          salida: { ini: "", fin: "" },
         };
       });
       return merged;
     });
   }, [componentes]);
 
-  // Guardado: localStorage inmediato + Supabase (debounced)
-  useEffect(() => {
-    // Local
-    localStorage.setItem(
-      storageKey,
-      JSON.stringify({ filas, horasExtrasTotal })
-    );
 
-    // Supabase
-    if (!hasSupabase || !header) return;
-
-    const t = setTimeout(async () => {
-      const fechaISO = new Date(anio, mes - 1, dia).toISOString().slice(0, 10);
-
-      // Upsert en "partes"
-      await supabase.from("partes").upsert(
-        {
-          pk: partePk,
-          fecha: fechaISO,
-          zona: header.zona,
-          municipio: header.municipio,
-          tipo: header.tipo ?? null,
-          unidad: header.unidad ?? null,
-          caseta: header.caseta ?? null,
-          nombre_centro: header.nombreCentro,
-          horas_extras_total:
-            horasExtrasTotal === ""
-              ? null
-              : parseFloat(horasExtrasTotal.replace(",", ".")) || null,
-        },
-        { onConflict: "pk" }
-      );
-
-      // Reemplazar detalle (simple approach: borrar e insertar)
-      await supabase.from("parte_filas").delete().eq("parte_pk", partePk);
-
-      if (filas.length > 0) {
-        const payload = filas.map((f) => ({
-          parte_pk: partePk,
-          componente_id: f.componenteId,
-          codigo: f.codigo || null,
-          abono_df: f.abonoDF,
-          superior_categoria: f.superiorCategoria,
-          jornada_ini: f.jornada.ini || null,
-          jornada_fin: f.jornada.fin || null,
-          salida_ini: f.salida.ini || null,
-          salida_fin: f.salida.fin || null,
-        }));
-        await supabase.from("parte_filas").insert(payload);
+  // ---------- “Guardar” NO-OP (mantiene el botón, sin DB) ----------
+  async function guardarEnSupabase() {
+    try {
+      const sel = getCurrentSelection();
+      if (!sel) {
+        alert("Primero selecciona Unidad o Caseta en la página inicial.");
+        return;
       }
-    }, 500); // debounce para no spamear
 
-    return () => clearTimeout(t);
-  }, [filas, horasExtrasTotal, storageKey, header, partePk, anio, mes, dia]);
+      // Cargar componentes de localStorage (creados en Page3)
+      let comps: Componente[] = [];
+      try {
+        const keys = [
+          "cuadernillo.componentes",
+          "cuadernilo:componentes",
+          "infoex:componentes",
+        ];
+        for (const k of keys) {
+          const raw = localStorage.getItem(k);
+          if (raw) {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) {
+              comps = arr;
+              break;
+            }
+          }
+        }
+      } catch {
+        /* ignore */
+      }
+
+      const ctx = selectionToContext(sel);
+
+      // Parse horas extra (global) "1.5" o "1,5" -> 1.5
+      const horasExtra =
+        horasExtrasTotal && !isNaN(Number(horasExtrasTotal.replace(",", ".")))
+          ? Number(horasExtrasTotal.replace(",", "."))
+          : null;
+
+      // Construir registros por cada fila con código obligatorio
+      const registros = filas
+        .filter((f) => f.codigo && f.codigo.trim() !== "")
+        .map((f) => {
+          const comp = comps.find((c) => c.id === f.componenteId);
+          return {
+            ...ctx,
+            componente_nombre: comp?.nombre ?? null,
+            componente_apellidos: comp?.apellidos ?? null,
+            componente_numero: comp?.numero ?? null,
+            codigo: f.codigo,
+            abono_df: !!f.abonoDF,
+            superior_categoria: !!f.superiorCategoria,
+            jornada_ini: f.jornada.ini || null,
+            jornada_fin: f.jornada.fin || null,
+            horas_extra: horasExtra,
+          };
+        });
+
+      if (registros.length === 0) {
+        alert("No hay filas con código para guardar.");
+        return;
+      }
+
+      await insertCuadernilloRows(registros);
+      alert("Enviado al centro de datos corrctamente.");
+    } catch (e: any) {
+      console.error(e);
+      alert("Error guardando en Supabase: " + (e?.message ?? e));
+    }
+  }
 
   const meses = useMemo(
     () => [
@@ -241,7 +250,7 @@ export default function Page2() {
 
   const updateRango = (
     componenteId: string,
-    bloque: "jornada" | "salida",
+    bloque: "jornada",
     campo: "ini" | "fin",
     value: HHMM
   ) => {
@@ -299,6 +308,7 @@ export default function Page2() {
           </div>
         </div>
       </div>
+
       {/* Metadatos del encabezado */}
       {header && (
         <div className="grid grid-cols-1 gap-2 text-xs text-white-70 md:grid-cols-4">
@@ -328,7 +338,7 @@ export default function Page2() {
           onClick={() => nav("/componentes", { state: { partePk } })}
           className="rounded-xl bg-amber-900 px-3 py-2 text-sm font-semibold"
         >
-          AGREGAR COMPONETE
+          AGREGAR COMPONENTE
         </button>
         <button
           onClick={() => nav("/incendios", { state: { partePk } })}
@@ -341,6 +351,14 @@ export default function Page2() {
           className="rounded-xl bg-amber-400 px-3 py-2 text-sm font-semibold"
         >
           SALIDAS A TRABAJOS
+        </button>
+
+        {/* Botón de guardado (no-op por ahora) */}
+        <button
+          onClick={guardarEnSupabase}
+          className="rounded-xl bg-emerald-600 px-3 py-2 text-sm font-semibold"
+        >
+          ENVIAR AL CENTRO DE DATOS
         </button>
       </div>
 
@@ -387,7 +405,7 @@ export default function Page2() {
               componentes.map((c, idx) => {
                 const fila = filas.find((f) => f.componenteId === c.id);
                 return (
-                  <tr key={c.id} className={idx % 2 ? "bg-white/[0.02]" : ""}>
+                  <tr key={c.id} className={idx % 2 ? "bg-white-[0.02]" : ""}>
                     <td className="border-t border-white-10 px-3 py-2">
                       {c.apellidos}, {c.nombre}
                       {c.numero ? (
@@ -449,6 +467,8 @@ export default function Page2() {
                         />
                       </label>
                     </td>
+
+                    {/* Jornada */}
                     <td className="border-t border-white-10 px-2 py-2">
                       <div className="grid grid-cols-2 gap-1 sm:gap-2">
                         <input
@@ -471,7 +491,8 @@ export default function Page2() {
                         />
                       </div>
                     </td>
-                    {/* Campo horas extras totales del día */}
+
+                    {/* Horas extras totales (del día) */}
                     <td className="border-t border-white-10 px-2 py-2 text-center">
                       <input
                         type="text"

@@ -9,19 +9,29 @@ export default function Page3() {
 
   const puedeCrear = nombre.trim() !== "" && apellidos.trim() !== "";
 
-  function crear() {
-    const nuevo = {
-      id: crypto.randomUUID(),
-      nombre: nombre.trim(),
-      apellidos: apellidos.trim(),
-      numero: numero.trim() || undefined,
-    };
-    const raw = localStorage.getItem("infoex:componentes");
-    const arr = raw ? (JSON.parse(raw) as any[]) : [];
-    arr.push(nuevo);
-    localStorage.setItem("infoex:componentes", JSON.stringify(arr));
-    nav("/control-diario");
-  }
+
+
+function crear() {
+  const nuevo = {
+    id: crypto.randomUUID(),
+    nombre: nombre.trim(),
+    apellidos: apellidos.trim(),
+    numero: numero.trim() || undefined,
+  };
+
+  // leer compatibilidad con claves antiguas
+  const raw =
+    localStorage.getItem("cuadernillo.componentes") ||
+    localStorage.getItem("cuadernilo:componentes") || // legacy typo
+    localStorage.getItem("infoex:componentes");       // legacy
+
+  const arr: any[] = raw ? JSON.parse(raw) : [];
+  arr.push(nuevo);
+
+  // ESCRIBIR SIEMPRE AQUÍ:
+  localStorage.setItem("cuadernillo.componentes", JSON.stringify(arr));
+  nav("/control-diario");
+}
 
   return (
     <section className="mx-auto max-w-md space-y-4 rounded-2xl border border-white/10 bg-zinc-900/60 p-6 text-white">
