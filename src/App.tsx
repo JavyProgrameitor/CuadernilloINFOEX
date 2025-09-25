@@ -10,7 +10,7 @@ import { Routes, Route } from "react-router-dom";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-base-200 text-base-content">
       <Navbar />
       <main className="mx-auto max-w-3xl p-4">
         <Routes>

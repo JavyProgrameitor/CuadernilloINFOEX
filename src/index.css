@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@plugin "daisyui" {
+  /* Habilitamos Light como predeterminado y Dark si el SO lo prefiere,
+     y añadimos los dos temas pedidos */
+  themes: light --default, dark --prefersdark, forest, cyberpunk;
+}
+
+
+/* Fallback global surface using theme tokens */
