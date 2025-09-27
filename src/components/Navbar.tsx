@@ -5,8 +5,8 @@ import ThemeSwitch from "./ThemeSwitch";
 
 const base =
   "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition";
-const inactive = "text-base-content/70 hover:text-base-content hover:bg-white-5";
-const active = "text-base-content bg-white-10 ring-1 ring-base-300/30";
+const inactive = "text-base-content hover:text-base-content hover:bg-white-5";
+const active = "text-base-content bg-white-10 ring-1 ring-base-300";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -17,7 +17,7 @@ export default function Navbar() {
   const closeMenu = () => setOpen(false);
 
   return (
-    <nav className="sticky top-0 z-40 border-b border-base-300/20 bg-base-100/60 backdrop-blur">
+    <nav className="sticky top-0 z-40 border-b border-base-300  bg-base-100 backdrop-blur">
       <div className="mx-auto max-w-7xl px-4">
         {/* Barra superior */}
         <div className="flex items-center justify-between py-3">
@@ -38,7 +38,7 @@ export default function Navbar() {
               >
                 JUNTA DE EXTREMADURA
               </h1>
-              <p className="hidden text-xs text-base-content/60 sm:block">
+              <p className="hidden text-xs text-base-content sm:block">
                 Servicio de Prevención y Extinción de Incendios
               </p>
             </div>
@@ -68,7 +68,7 @@ export default function Navbar() {
               <BarChart3 className="h-4 w-4" />
               <span className="whitespace-nowrap">Resumen mensual</span>
             </NavLink>
-                      <ThemeSwitch />
+               <ThemeSwitch />
           </div>
         </div>
 

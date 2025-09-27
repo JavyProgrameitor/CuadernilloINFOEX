@@ -269,7 +269,7 @@ export default function Page2() {
       <div className="flex flex-wrap justify-center gap-2">
         <div className="flex items-center gap-2">
           <div className="rounded-xl border border-white-10 bg-zinc-900 px-3 py-2 text-sm">
-            <span className="mr-2 text-white/60">DÍA</span>
+            <span className="mr-2 text-white">DÍA</span>
             <input
               type="number"
               min={1}
@@ -281,7 +281,7 @@ export default function Page2() {
           </div>
 
           <div className="rounded-xl border border-white-10 bg-zinc-900 px-3 py-2 text-sm">
-            <span className="mr-2 text-white/60">MES</span>
+            <span className="mr-2 text-white">MES</span>
             <select
               value={mes}
               onChange={(e) => setMes(parseInt(e.target.value, 10))}
@@ -311,21 +311,21 @@ export default function Page2() {
 
       {/* Metadatos del encabezado */}
       {header && (
-        <div className="grid grid-cols-1 gap-2 text-xs text-white-70 md:grid-cols-4">
-          <div className="rounded-lg border border-white-10 bg-black-30 p-2">
-            <span className="font-semibold text-white/80">Zona: </span>
+        <div className="flex flex-wrap justify-center text-xs font-bold text-black md:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+          <div className="rounded-lg border border-white bg-emerald-300 p-2">
+            <span className="font-semibold">Zona: </span>
             {header.zona}
           </div>
-          <div className="rounded-lg border border-white-10 bg-black-30 p-2">
-            <span className="font-semibold text-white/80">Municipio: </span>
+          <div className="rounded-lg border border-white bg-emerald-300 p-2">
+            <span className="font-semibold">Municipio: </span>
             {header.municipio}
           </div>
-          <div className="rounded-lg border border-white-10 bg-black-30 p-2">
-            <span className="font-semibold text-white/80">Nombre: </span>
+          <div className="rounded-lg border border-white bg-emerald-300 p-2">
+            <span className="font-semibold">Nombre: </span>
             {header.nombreCentro}
           </div>
-          <div className="rounded-lg border border-white-10 bg-black-30 p-2">
-            <span className="font-semibold text-white/80">
+          <div className="rounded-lg border border-white bg-emerald-300 p-2">
+            <span className="font-semibold">
               {header.tipo === "caseta" ? "Caseta" : "Unidad"}:{" "}
             </span>
             {header.tipo === "caseta" ? header.caseta : header.unidad}
@@ -422,7 +422,7 @@ export default function Page2() {
                         onChange={(e) =>
                           updateFila(c.id, "codigo", e.target.value as Codigo)
                         }
-                        className="h-9 w-16 sm:w-20 rounded-md border border-white-10 bg-black-30 px-2 text-center font-mono outline-none"
+                        className="h-9 w-16 sm:w-20 rounded-md border border-white-10 bg-emerald-600 px-2 text-center font-mono outline-none"
                       >
                         {["", "JR", "TH", "TC", "V", "B"].map((code) => (
                           <option
@@ -501,7 +501,7 @@ export default function Page2() {
                         placeholder="h.mm"
                         value={horasExtrasTotal}
                         onChange={(e) => setHorasExtrasTotal(e.target.value)}
-                        className="h-9 w-16 sm:w-20 rounded-md border border-white-10 bg-black-30 px-2 text-center font-mono outline-none"
+                        className="h-9 w-16 sm:w-20 rounded-md border border-white-10 bg-emerald-600 px-2 text-center font-mono outline-none"
                       />
                     </td>
                   </tr>

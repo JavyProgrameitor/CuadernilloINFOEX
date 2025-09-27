@@ -26,7 +26,7 @@ export default function ThemeSwitch() {
         type="radio"
         name="theme"
         value="forest"
-        aria-label="Forest"
+        aria-label="Oscuro"
         className="theme-controller btn join-item"
         onChange={() => setTheme("forest")}
         defaultChecked={theme === "forest"}
@@ -35,7 +35,7 @@ export default function ThemeSwitch() {
         type="radio"
         name="theme"
         value="cyberpunk"
-        aria-label="Cyberpunk"
+        aria-label="Claro"
         className="theme-controller btn join-item"
         onChange={() => setTheme("cyberpunk")}
         defaultChecked={theme === "cyberpunk"}

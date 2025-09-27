@@ -197,7 +197,7 @@ const Page6: React.FC = () => {
       <section className="p-4 flex items-center justify-center min-h-[60vh]">
         <form
           onSubmit={handleLogin}
-          className="w-full max-w-sm space-y-4 rounded-2xl border border-white/10 bg-zinc-900/60 p-6 text-white"
+          className="w-full max-w-sm space-y-4 rounded-2xl border border-white-10 bg-zinc-900 p-6 text-white"
         >
           <h1 className="text-xl font-semibold">Acceso administración</h1>
 
@@ -206,7 +206,7 @@ const Page6: React.FC = () => {
             <input
               value={user}
               onChange={(e) => setUser(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-black/30 p-2 outline-none"
+              className="w-full rounded-xl border border-white-10 bg-black-30 p-2 outline-none"
               placeholder="admin"
               autoFocus
             />
@@ -218,7 +218,7 @@ const Page6: React.FC = () => {
               type="password"
               value={pass}
               onChange={(e) => setPass(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-black/30 p-2 outline-none"
+              className="w-full rounded-xl border border-white-10 bg-black-30 p-2 outline-none"
               placeholder="••••••"
             />
           </div>
@@ -228,17 +228,12 @@ const Page6: React.FC = () => {
               {loginError}
             </div>
           )}
-
           <button
             type="submit"
-            className="w-full rounded-xl bg-emerald-600 px-4 py-2 font-semibold"
+            className="w-full rounded-xl border bg-green-700 px-3 py-2 font-semibold text-black hover:bg-green-500 transition-colors"
           >
             Entrar
           </button>
-
-          <p className="text-xs text-white/50">
-            * Este control es sólo de interfaz (cliente). Para seguridad real, usa Auth/RLS.
-          </p>
         </form>
       </section>
     );
@@ -249,7 +244,8 @@ const Page6: React.FC = () => {
     <section className="space-y-6 p-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Administración · Cuadernillo</h1>
-        <button onClick={handleLogout} className="rounded-xl border px-3 py-2 text-sm">
+        <button onClick={handleLogout}  className="rounded-xl bg-lime-600 px-4 py-2 font-semibold text-black disabled:cursor-not-allowed disabled:opacity-50"
+        >
           Salir
         </button>
       </div>
@@ -268,9 +264,10 @@ const Page6: React.FC = () => {
       )}
 
       {/* Controles */}
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="rounded-xl border px-3 py-2">
-          <span className="mr-2 text-sm text-gray-300">Fecha</span>
+      <div className="flex flex-wrap items-center gap-2 font-bold">
+      <p className="">Busqueda por día</p>  
+        <div className="flex items-center rounded-xl border px-3 py-2">
+          <span className="mr-2 text-xm ">Fecha</span>
           <input
             type="date"
             value={fecha}
@@ -278,7 +275,6 @@ const Page6: React.FC = () => {
               setPage(0);
               setFecha(e.target.value);
             }}
-            className="bg-transparent outline-none"
           />
         </div>
 

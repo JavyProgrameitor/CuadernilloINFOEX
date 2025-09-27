@@ -295,8 +295,8 @@ export default function Page1() {
           </select>
 
           {tipo && opcionesFinales.length === 0 && (
-            <p className="mt-2 text-xs text-amber-400">
-              No hay {tipo === "caseta" ? "casetas" : "unidades"} para el
+            <p className="flex flex justify-center font-black mt-2 text-xm text-red-600">
+             *No hay {tipo === "caseta" ? "casetas" : "unidades"} para el
               municipio seleccionado.
             </p>
           )}
